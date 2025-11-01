@@ -9,9 +9,16 @@ import { Component } from '@angular/core';
     </main>
   `,
   styles: [`
+    :host {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-height: 100%;
+    }
     .landing-page {
       flex: 1;
       background: #f8f9fa;
+      min-height: 100%;
     }
   `]
 })

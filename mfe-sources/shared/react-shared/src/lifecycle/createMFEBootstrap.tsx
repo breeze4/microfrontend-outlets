@@ -30,6 +30,7 @@ export function createMFEBootstrap<P = {}>(
         // Clear any existing content
         element.innerHTML = '';
         root = ReactDOM.createRoot(element);
+        // @ts-expect-error - Component is rendered without props; caller must ensure component doesn't require props
         root.render(<Component />);
         console.log(`${mfeName} mounted to`, elementId);
       }
