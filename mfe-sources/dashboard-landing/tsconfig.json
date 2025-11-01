@@ -9,7 +9,12 @@
     "skipLibCheck": true,
     "strict": true,
     "esModuleInterop": true,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "paths": {
+      "@mfe/types": ["../shared/types/src"],
+      "@mfe/angular-shared": ["../shared/angular-shared/src"]
+    }
   },
   "include": ["src/**/*"]
 }

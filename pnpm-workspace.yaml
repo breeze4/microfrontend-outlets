@@ -3,3 +3,4 @@ packages:
   - 'static-asset-server'
   - 'routing-gateway'
   - 'mfe-sources/*'
+  - 'mfe-sources/shared/*'

@@ -9,7 +9,12 @@ module.exports = {
     clean: true
   },
   resolve: {
-    extensions: ['.ts', '.js']
+    extensions: ['.ts', '.js'],
+    symlinks: true,
+    alias: {
+      '@mfe/types': path.resolve(__dirname, '../shared/types/src'),
+      '@mfe/angular-shared': path.resolve(__dirname, '../shared/angular-shared/src')
+    }
   },
   module: {
     rules: [

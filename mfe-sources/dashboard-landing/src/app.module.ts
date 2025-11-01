@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { CommonModule, APP_BASE_HREF } from '@angular/common';
-import { RouterModule, Routes } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { RouterModule, Routes, UrlHandlingStrategy } from '@angular/router';
+import { createBaseHrefProvider } from '@mfe/angular-shared';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home.component';
 import { ClaimsComponent } from './components/claims.component';
 import { PoliciesComponent } from './components/policies.component';
 import { CustomersComponent } from './components/customers.component';
 import { ReportsComponent } from './components/reports.component';
+import { DashboardUrlHandlingStrategy } from './dashboard-url-strategy';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -30,7 +32,8 @@ const routes: Routes = [
     ReportsComponent
   ],
   providers: [
-    { provide: APP_BASE_HREF, useValue: '/dashboard' }
+    createBaseHrefProvider('/dashboard'),
+    { provide: UrlHandlingStrategy, useClass: DashboardUrlHandlingStrategy }
   ],
   bootstrap: [AppComponent]
 })

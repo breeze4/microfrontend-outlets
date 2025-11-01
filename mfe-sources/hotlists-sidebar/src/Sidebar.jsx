@@ -1,7 +1,10 @@
 import React from 'react';
+import { useNavigate } from '@mfe/react-shared';
 import './Sidebar.css';
 
 function Sidebar() {
+  const navigate = useNavigate();
+
   const menuItems = [
     { label: 'Dashboard', href: '/hotlists' },
     { label: 'Defects', href: '/hotlists/defects' },
@@ -9,15 +12,6 @@ function Sidebar() {
     { label: 'Metrics', href: '/hotlists/metrics' },
     { label: 'Reports', href: '/hotlists/reports' }
   ];
-
-  const handleNavClick = (e, href) => {
-    e.preventDefault();
-    if (window.navigateTo) {
-      window.navigateTo(href);
-    } else {
-      console.error('navigateTo function not available');
-    }
-  };
 
   return (
     <aside className="mfe-sidebar hotlists">
@@ -29,7 +23,7 @@ function Sidebar() {
               <a
                 href={item.href}
                 className="menu-link"
-                onClick={(e) => handleNavClick(e, item.href)}
+                onClick={(e) => navigate(item.href, e)}
               >
                 {item.label}
               </a>

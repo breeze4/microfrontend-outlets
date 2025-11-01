@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "setup": "./setup.sh",
-    "build:mfes": "pnpm build:shell && pnpm build:header && pnpm build:footer && pnpm build:dashboard-sidebar && pnpm build:dashboard-landing && pnpm build:hotlists-sidebar && pnpm build:hotlists-dashboard",
+    "build:shared": "pnpm --filter @mfe/types build && pnpm --filter @mfe/react-shared build && pnpm --filter @mfe/angular-shared build",
+    "build:mfes": "pnpm build:shared && pnpm build:shell && pnpm build:header && pnpm build:footer && pnpm build:dashboard-sidebar && pnpm build:dashboard-landing && pnpm build:hotlists-sidebar && pnpm build:hotlists-dashboard",
     "build:shell": "cd mfe-sources/mfe-shell && npm run build",
     "build:header": "cd mfe-sources/common-header && npm run build",
     "build:footer": "cd mfe-sources/common-footer && npm run build",
