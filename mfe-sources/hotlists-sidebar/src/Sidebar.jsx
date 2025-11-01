@@ -10,6 +10,15 @@ function Sidebar() {
     { label: 'Reports', href: '/hotlists/reports' }
   ];
 
+  const handleNavClick = (e, href) => {
+    e.preventDefault();
+    if (window.navigateTo) {
+      window.navigateTo(href);
+    } else {
+      console.error('navigateTo function not available');
+    }
+  };
+
   return (
     <aside className="mfe-sidebar hotlists">
       <h3 className="sidebar-title">Hotlists</h3>
@@ -17,7 +26,11 @@ function Sidebar() {
         <ul className="sidebar-menu">
           {menuItems.map((item, index) => (
             <li key={index} className="menu-item">
-              <a href={item.href} className="menu-link">
+              <a
+                href={item.href}
+                className="menu-link"
+                onClick={(e) => handleNavClick(e, item.href)}
+              >
                 {item.label}
               </a>
             </li>
