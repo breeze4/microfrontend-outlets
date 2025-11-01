@@ -1,0 +1,26 @@
+services:
+  mfe-static-assets:
+    build:
+      context: ./static-asset-server
+      dockerfile: Dockerfile
+    container_name: mfe-static-assets
+    ports:
+      - "3002:3002"
+    volumes:
+      - ./static-asset-server/mfes:/app/mfes:ro
+    restart: unless-stopped
+
+  mfe-nginx:
+    build:
+      context: ./routing-gateway
+      dockerfile: Dockerfile
+    container_name: mfe-nginx
+    ports:
+      - "3000:3000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./routing-gateway/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - mfe-static-assets
+    restart: unless-stopped

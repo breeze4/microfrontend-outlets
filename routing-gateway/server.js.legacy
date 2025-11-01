@@ -1,3 +1,12 @@
+/**
+ * LEGACY FILE - NO LONGER USED
+ *
+ * This Node.js/Express routing gateway has been replaced with nginx running in Docker.
+ * See nginx.conf and docker-compose.yml for the current implementation.
+ *
+ * This file is kept for reference only.
+ */
+
 const express = require('express');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 

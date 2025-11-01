@@ -66,6 +66,8 @@ To make this client-side logic work, your server environment (e.g., Nginx, or a 
 3.  **Routing Gateway (URL Rewriting):**
     This is the most critical server-side piece. It must enforce rules on all incoming requests.
 
+    **Implementation:** nginx running in Docker (see `routing-gateway/nginx.conf` and `docker-compose.yml`)
+
       * **Rule 1 (API Routes):** Any request starting with `/api/` (like `/api/config/...`) must be proxied to your **Config Server**.
       * **Rule 2 (Asset Routes):** Any request that looks like an asset (e.g., ends in `.js`, `.css`, `.ico`, `.png`) must be routed to your **Static Asset Server**. This includes all your MFE bundles.
       * **Rule 3 (SPA Fallback):** **All other requests** (e.g., `/dashboard/`, `/dashboard/some/page`, `/hotlists/foo/bar`) must *not* 404. They must all be served the exact same file: the main `index.html` of your app shell. This allows the client-side app shell to load, parse the URL, and take over the routing.

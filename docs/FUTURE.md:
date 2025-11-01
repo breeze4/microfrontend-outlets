@@ -1,7 +1,6 @@
 TASKS:
 - chunk the bundle to make efficient loading where possible
 - add the ability to use a remote/separate codebase for the architecture for local builds
-- use nginx for the routing gateway
 - add an api server to the project
 - think about navbar complexity and what that might be
 - typescript/better source maps

@@ -4,16 +4,17 @@ A micro-frontend architecture implementation using a configuration-driven app sh
 
 ## Architecture Overview
 
-This project implements a micro-frontend architecture with three Node.js/Express servers:
+This project implements a micro-frontend architecture with:
 
-1. **Config Server** (Port 3001) - Serves JSON configurations for different modes
-2. **Static Asset Server** (Port 3002) - Hosts MFE bundle files
-3. **Routing Gateway** (Port 3000) - Main entry point with URL rewriting and proxying
+1. **Config Server** (Port 3001) - Node.js/Express - Serves JSON configurations for different modes
+2. **Static Asset Server** (Port 3002) - Node.js/Express - Hosts MFE bundle files
+3. **Routing Gateway** (Port 3000) - nginx (Docker) - Main entry point with URL rewriting and proxying
 
 ## Prerequisites
 
 - **Node.js** (v16 or higher)
 - **pnpm** (install with `npm install -g pnpm` or `curl -fsSL https://get.pnpm.io/install.sh | sh -`)
+- **Docker** (for nginx routing gateway)
 
 ## Quick Start
 
@@ -95,20 +96,22 @@ Serves MFE bundle files following the `/mode/domain/container/app/resource` URL 
 
 ### Routing Gateway (Port 3000)
 
-Main entry point implementing three routing rules:
+Main entry point using nginx in Docker, implementing three routing rules:
 
 1. **API Routes** (`/api/*`) → Proxied to Config Server
 2. **Asset Routes** (`*.js`, `*.css`, etc.) → Proxied to Static Asset Server
 3. **SPA Fallback** (all other routes) → Serves app shell `index.html`
 
-The app shell (`routing-gateway/public/app-shell.js`) handles:
+The app shell handles:
 - Mode detection from URL
 - Config fetching
 - Dynamic MFE loading and mounting
 
+**Reload nginx config:** `pnpm nginx:reload`
+
 ## Development
 
-### Using nodemon for auto-reload
+### Auto-reload
 
 **Option 1: Run all servers in dev mode (recommended)**
 
@@ -118,7 +121,7 @@ pnpm dev:dashboard    # Run all servers optimized for dashboard mode
 pnpm dev:hotlists     # Run all servers optimized for hotlists mode
 ```
 
-All three commands run all servers concurrently with auto-reload enabled.
+All three commands run all servers concurrently with auto-reload enabled (includes nginx config auto-reload).
 
 **Option 2: Run servers individually**
 

@@ -15,18 +15,21 @@
     "build:hotlists-sidebar": "cd mfe-sources/hotlists-sidebar && npm run build",
     "build:hotlists-dashboard": "cd mfe-sources/hotlists-dashboard && npm run build",
     "dev:mfes": "concurrently -n shell,header,footer,dash-side,dash-land,hot-side,hot-dash -c blue,cyan,magenta,green,yellow,red,white \"pnpm --filter mfe-shell dev\" \"pnpm --filter common-header dev\" \"pnpm --filter common-footer dev\" \"pnpm --filter dashboard-sidebar dev\" \"pnpm --filter dashboard-landing dev\" \"pnpm --filter hotlists-sidebar dev\" \"pnpm --filter hotlists-dashboard dev\"",
-    "start": "concurrently -n config,assets,gateway -c cyan,magenta,green \"pnpm start:config\" \"pnpm start:assets\" \"pnpm start:gateway\"",
-    "dev": "concurrently -n config,assets,gateway -c cyan,magenta,green \"pnpm dev:config\" \"pnpm dev:assets\" \"pnpm dev:gateway\"",
-    "dev:dashboard": "concurrently -n config,assets,gateway -c cyan,magenta,green \"MODE=dashboard pnpm dev:config\" \"MODE=dashboard pnpm dev:assets\" \"MODE=dashboard pnpm dev:gateway\"",
-    "dev:hotlists": "concurrently -n config,assets,gateway -c cyan,magenta,green \"MODE=hotlists pnpm dev:config\" \"MODE=hotlists pnpm dev:assets\" \"MODE=hotlists pnpm dev:gateway\"",
+    "start": "concurrently -n config,gateway -c cyan,green \"pnpm start:config\" \"pnpm start:gateway\"",
+    "dev": "concurrently -n config,gateway -c cyan,green \"pnpm dev:config\" \"pnpm dev:gateway\"",
+    "dev:dashboard": "concurrently -n config,gateway -c cyan,green \"MODE=dashboard pnpm dev:config\" \"MODE=dashboard pnpm dev:gateway\"",
+    "dev:hotlists": "concurrently -n config,gateway -c cyan,green \"MODE=hotlists pnpm dev:config\" \"MODE=hotlists pnpm dev:gateway\"",
     "start:config": "pnpm --filter config-server start",
     "start:assets": "pnpm --filter static-asset-server start",
-    "start:gateway": "pnpm --filter routing-gateway start",
+    "start:gateway": "docker compose up -d",
     "dev:config": "pnpm --filter config-server dev",
     "dev:assets": "pnpm --filter static-asset-server dev",
-    "dev:gateway": "pnpm --filter routing-gateway dev"
+    "dev:gateway": "concurrently -n docker,watcher -c green,yellow \"docker compose up\" \"node nginx-reload-watcher.js\"",
+    "nginx:reload": "docker exec mfe-nginx nginx -s reload",
+    "nginx:logs": "docker compose logs -f mfe-nginx"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "chokidar": "^3.5.3"
   }
 }

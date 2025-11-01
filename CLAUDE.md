@@ -26,7 +26,7 @@ The architecture follows a three-layer model:
 3. **Server Requirements**:
    - **Config Server**: API endpoint serving JSON configurations (`/api/config/{mode}`)
    - **Static Asset Server**: Hosts built MFE bundles (JS, CSS, images)
-   - **Routing Gateway**: URL rewriting with rules:
+   - **Routing Gateway** (nginx + Docker): URL rewriting with rules:
      - `/api/*` → proxied to Config Server
      - `*.js`, `*.css`, `*.ico`, `*.png` → routed to Static Asset Server
      - All other requests → serve app shell `index.html` (SPA fallback)
@@ -86,8 +86,9 @@ mfe-v1/
 │   └── server.js
 │
 ├── routing-gateway/              # Routing Gateway (port 3000, main entry)
-│   ├── package.json
-│   └── server.js
+│   ├── nginx.conf                # Nginx configuration
+│   ├── Dockerfile                # Docker container for nginx
+│   └── server.js.legacy          # Legacy Node.js implementation (reference only)
 │
 ├── mfe-sources/                  # Source code for all MFEs
 │   ├── mfe-shell/               # App shell source
@@ -101,6 +102,8 @@ mfe-v1/
 ├── docs/
 │   └── SPEC.md                  # Full architectural specification
 │
+├── docker-compose.yml           # Docker compose for nginx gateway
+├── nginx-reload-watcher.js      # Auto-reload nginx config in dev mode
 ├── pnpm-workspace.yaml          # pnpm workspace configuration
 ├── package.json                 # Root package with all scripts
 ├── README.md                    # User-facing documentation
@@ -120,10 +123,10 @@ Key files:
 
 All core components are built and operational:
 
-1. **Backend Servers** (all Node.js/Express):
-   - **Config Server** (`config-server/`, port 3001) - serves mode configurations via `/api/config/:mode`
-   - **Static Asset Server** (`static-asset-server/`, port 3002) - hosts built MFE bundles
-   - **Routing Gateway** (`routing-gateway/`, port 3000) - main entry point with URL rewriting rules
+1. **Backend Servers**:
+   - **Config Server** (`config-server/`, port 3001) - Node.js/Express - serves mode configurations via `/api/config/:mode`
+   - **Static Asset Server** (`static-asset-server/`, port 3002) - Node.js/Express - hosts built MFE bundles
+   - **Routing Gateway** (`routing-gateway/`, port 3000) - nginx + Docker - main entry point with URL rewriting rules
 
 2. **App Shell** (`mfe-sources/mfe-shell/`):
    - JavaScript-based shell (`app-shell.js`) that detects mode, fetches config, loads MFEs
