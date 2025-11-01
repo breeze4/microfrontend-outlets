@@ -1,0 +1,25 @@
+{
+  "mode": "hotlists",
+  "staticFragments": [
+    {
+      "outlet": "header-outlet",
+      "path": "/common/root/header",
+      "resource": "main.js"
+    },
+    {
+      "outlet": "sidebar-outlet",
+      "path": "/hotlists/navigation/sidebar",
+      "resource": "main.js"
+    },
+    {
+      "outlet": "footer-outlet",
+      "path": "/common/root/footer",
+      "resource": "main.js"
+    }
+  ],
+  "landingPage": {
+    "outlet": "landing-page-outlet",
+    "resourcePath": "/pages/hotlists/main/root/hotlists-dashboard",
+    "resource": "main.js"
+  }
+}

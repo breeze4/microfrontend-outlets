@@ -1,0 +1,5 @@
+packages:
+  - 'config-server'
+  - 'static-asset-server'
+  - 'routing-gateway'
+  - 'mfe-sources/*'

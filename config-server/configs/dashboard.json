@@ -1,0 +1,25 @@
+{
+  "mode": "dashboard",
+  "staticFragments": [
+    {
+      "outlet": "header-outlet",
+      "path": "/common/root/header",
+      "resource": "main.js"
+    },
+    {
+      "outlet": "sidebar-outlet",
+      "path": "/dashboard/navigation/sidebar",
+      "resource": "main.js"
+    },
+    {
+      "outlet": "footer-outlet",
+      "path": "/common/root/footer",
+      "resource": "main.js"
+    }
+  ],
+  "landingPage": {
+    "outlet": "landing-page-outlet",
+    "resourcePath": "/pages/dashboard/common/root/dashboard-landing",
+    "resource": "main.js"
+  }
+}
