@@ -2,7 +2,7 @@ import React from 'react';
 import './Header.css';
 
 function Header() {
-  const handleNavClick = (e, path) => {
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
     e.preventDefault();
     if (window.navigateTo) {
       window.navigateTo(path);

@@ -4,7 +4,7 @@ import './Footer.css';
 function Footer() {
   const currentYear = new Date().getFullYear();
 
-  const handleNavClick = (e, path) => {
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
     e.preventDefault();
     if (window.navigateTo) {
       window.navigateTo(path);

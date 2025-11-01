@@ -8,8 +8,9 @@ export default defineConfig({
     'process.env.NODE_ENV': JSON.stringify('production')
   },
   build: {
+    sourcemap: true,
     lib: {
-      entry: resolve(__dirname, 'src/main.jsx'),
+      entry: resolve(__dirname, 'src/main.tsx'),
       name: 'HeaderMFE',
       fileName: () => 'main.js',
       formats: ['iife']

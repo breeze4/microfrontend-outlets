@@ -1,11 +1,11 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
+import type { MFELifecycle } from '@mfe/types';
 import Footer from './Footer';
 
-let root = null;
+let root: ReactDOM.Root | null = null;
 
-window.FooterMFE = {
-  mount: function(elementId) {
+const FooterMFE: MFELifecycle = {
+  mount(elementId: string) {
     const element = document.getElementById(elementId);
     if (element) {
       root = ReactDOM.createRoot(element);
@@ -14,7 +14,7 @@ window.FooterMFE = {
     }
   },
 
-  unmount: function(elementId) {
+  unmount(elementId: string) {
     if (root) {
       root.unmount();
       root = null;
@@ -26,5 +26,7 @@ window.FooterMFE = {
     console.log('Footer MFE unmounted from', elementId);
   }
 };
+
+window.FooterMFE = FooterMFE;
 
 console.log('Footer MFE registered on window object');

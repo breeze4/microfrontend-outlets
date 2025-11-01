@@ -1,4 +1,18 @@
 // App Shell - Main orchestration logic with client-side routing
+
+interface AppState {
+  currentMode: string | null;
+  mountedFragments: Record<string, { mfeName: string; path: string; assetUrl: string }>;
+  loadedScripts: Set<string>;
+  configs: Record<string, any>;
+}
+
+interface Fragment {
+  outlet: string;
+  path: string;
+  resource: string;
+}
+
 (function() {
   console.log('App Shell initializing...');
 
@@ -6,7 +20,7 @@
   const ASSET_SERVER_URL = 'http://localhost:3002';
 
   // State tracking for mounted MFEs
-  const appState = {
+  const appState: AppState = {
     currentMode: null,
     mountedFragments: {},
     loadedScripts: new Set(),
@@ -14,14 +28,14 @@
   };
 
   // Extract mode from URL path (first segment)
-  function detectMode() {
+  function detectMode(): string {
     const path = window.location.pathname;
     const segments = path.split('/').filter(s => s);
     return segments[0] || 'dashboard'; // Default to dashboard
   }
 
   // Global navigation helper function
-  window.navigateTo = function(path) {
+  window.navigateTo = function(path: string): void {
     console.log(`[Navigation] Navigating to: ${path}`);
     window.history.pushState({}, '', path);
 
@@ -34,7 +48,7 @@
   };
 
   // Load a script dynamically
-  function loadScript(url) {
+  function loadScript(url: string): Promise<string> {
     // Check if script already loaded
     if (appState.loadedScripts.has(url)) {
       console.log(`[Script] Already loaded: ${url}`);
@@ -54,7 +68,7 @@
   }
 
   // Get MFE name for outlet and mode
-  function getMfeName(outlet, mode) {
+  function getMfeName(outlet: string, mode: string): string | undefined {
     const mfeMap = {
       'header-outlet': 'HeaderMFE',
       'footer-outlet': 'FooterMFE',
@@ -65,7 +79,7 @@
   }
 
   // Unmount a fragment from an outlet
-  function unmountFragment(outlet) {
+  function unmountFragment(outlet: string): void {
     const fragmentInfo = appState.mountedFragments[outlet];
     if (!fragmentInfo) {
       console.log(`[Unmount] No fragment mounted in ${outlet}`);
@@ -83,7 +97,7 @@
   }
 
   // Mount a fragment into an outlet
-  async function mountFragment(fragment, mode) {
+  async function mountFragment(fragment: Fragment, mode: string): Promise<void> {
     const { outlet, path, resource } = fragment;
 
     // Check if already mounted
@@ -126,7 +140,7 @@
   }
 
   // Fetch configuration for a mode
-  async function fetchConfig(mode) {
+  async function fetchConfig(mode: string): Promise<any> {
     // Return cached config if available
     if (appState.configs[mode]) {
       console.log(`[Config] Using cached config for mode: ${mode}`);
@@ -149,7 +163,7 @@
   }
 
   // Handle route changes
-  async function handleRouteChange() {
+  async function handleRouteChange(): Promise<void> {
     try {
       const newMode = detectMode();
       console.log(`[Route Change] Current mode: ${appState.currentMode}, New mode: ${newMode}`);
@@ -196,7 +210,7 @@
   }
 
   // Main composition function (initial load)
-  async function composeApplication() {
+  async function composeApplication(): Promise<void> {
     try {
       const mode = detectMode();
       console.log(`[Init] Detected mode: ${mode}`);
