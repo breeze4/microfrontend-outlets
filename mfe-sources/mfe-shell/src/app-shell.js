@@ -23,14 +23,18 @@
   // Global navigation helper function
   window.navigateTo = function(path) {
     console.log(`[Navigation] Navigating to: ${path}`);
+    console.log(`[DEBUG:NAVIGATE] navigateTo called with path: ${path}`);
+    console.log(`[DEBUG:NAVIGATE] Current URL before pushState: ${window.location.pathname}`);
+
     window.history.pushState({}, '', path);
 
     // Dispatch popstate event to notify routers (Angular & React)
     // This is needed because pushState doesn't trigger popstate automatically
+    console.log('[DEBUG:NAVIGATE] Dispatching popstate event');
     window.dispatchEvent(new PopStateEvent('popstate', { state: {} }));
 
-    // Dispatch custom event to trigger shell's route change handling
-    window.dispatchEvent(new CustomEvent('app-navigate', { detail: { path } }));
+    // Note: We don't dispatch app-navigate here because popstate already triggers handleRouteChange
+    // Dispatching both would cause handleRouteChange to run twice, causing race conditions
   };
 
   // Load a script dynamically
@@ -151,8 +155,13 @@
   // Handle route changes
   async function handleRouteChange() {
     try {
+      console.log('[DEBUG:NAVIGATE] handleRouteChange triggered');
+      console.log(`[DEBUG:NAVIGATE] Current URL: ${window.location.pathname}`);
+
       const newMode = detectMode();
       console.log(`[Route Change] Current mode: ${appState.currentMode}, New mode: ${newMode}`);
+      console.log(`[DEBUG:NAVIGATE] Current mode: ${appState.currentMode}, Detected mode: ${newMode}`);
+      console.log(`[DEBUG:NAVIGATE] Mode changed: ${appState.currentMode !== newMode}`);
 
       // If mode hasn't changed, let the landing page router handle it
       if (appState.currentMode === newMode) {
@@ -164,10 +173,13 @@
       console.log(`[Route Change] Mode changed from ${appState.currentMode} to ${newMode}`);
 
       // Unmount mode-specific fragments (sidebar and landing page)
+      console.log('[DEBUG:NAVIGATE] Unmounting sidebar-outlet');
       unmountFragment('sidebar-outlet');
+      console.log('[DEBUG:NAVIGATE] Unmounting landing-page-outlet');
       unmountFragment('landing-page-outlet');
 
       // Fetch config for new mode
+      console.log(`[DEBUG:NAVIGATE] Mounting new fragments for mode: ${newMode}`);
       const config = await fetchConfig(newMode);
 
       // Mount new sidebar
@@ -236,15 +248,11 @@
     }
   }
 
-  // Listen for browser back/forward navigation
+  // Listen for browser back/forward navigation and programmatic navigation
   window.addEventListener('popstate', () => {
-    console.log('[Popstate] Browser back/forward detected');
-    handleRouteChange();
-  });
-
-  // Listen for custom navigation events
-  window.addEventListener('app-navigate', () => {
-    console.log('[App Navigate] Custom navigation event received');
+    console.log('[Popstate] Browser navigation detected');
+    console.log('[DEBUG:NAVIGATE] Popstate event fired');
+    console.log(`[DEBUG:NAVIGATE] URL is now: ${window.location.pathname}`);
     handleRouteChange();
   });
 

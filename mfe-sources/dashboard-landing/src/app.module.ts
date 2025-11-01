@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Routes, UrlHandlingStrategy } from '@angular/router';
+import { RouterModule, Routes, UrlHandlingStrategy, Router } from '@angular/router';
 import { createBaseHrefProvider } from '@mfe/angular-shared';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home.component';
@@ -10,6 +10,14 @@ import { PoliciesComponent } from './components/policies.component';
 import { CustomersComponent } from './components/customers.component';
 import { ReportsComponent } from './components/reports.component';
 import { DashboardUrlHandlingStrategy } from './dashboard-url-strategy';
+
+function initializeRouterDebugger(router: Router) {
+  return () => {
+    router.events.subscribe(event => {
+      console.log(`[DEBUG:NAVIGATE] [Angular Router Event] ${event.constructor.name}`, event);
+    });
+  };
+}
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -33,7 +41,13 @@ const routes: Routes = [
   ],
   providers: [
     createBaseHrefProvider('/dashboard'),
-    { provide: UrlHandlingStrategy, useClass: DashboardUrlHandlingStrategy }
+    { provide: UrlHandlingStrategy, useClass: DashboardUrlHandlingStrategy },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeRouterDebugger,
+      deps: [Router],
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

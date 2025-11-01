@@ -49,3 +49,30 @@ Shell would handle ALL routing:
 - Routes span multiple teams needing central governance
 - Need to mix different frameworks within a single mode
 - Require centralized auth/analytics on every route change
+
+## Gotchas
+
+### Trailing Slash Inconsistency Between Frameworks
+
+**Issue**: Angular Router adds trailing slashes to root routes, React Router does not.
+
+**Behavior**:
+- Navigating to `/dashboard` → Angular normalizes to `/dashboard/`
+- Navigating to `/hotlists` → React keeps as `/hotlists`
+
+**Root Cause**:
+- Angular Router with `APP_BASE_HREF='/dashboard'` treats the root path (`''`) as a "directory" and adds a trailing slash
+- React Router with `basename="/hotlists"` does not normalize trailing slashes
+
+**Solution**: Use trailing slashes consistently in all navigation links for both modes:
+```jsx
+// Header navigation
+<a href="/dashboard/" onClick={(e) => handleNavClick(e, '/dashboard/')}>Dashboard</a>
+<a href="/hotlists/" onClick={(e) => handleNavClick(e, '/hotlists/')}>Hotlists</a>
+
+// Sidebar navigation
+{ label: 'Dashboard', href: '/dashboard/' }
+{ label: 'Hotlists', href: '/hotlists/' }
+```
+
+**Why This Works**: Both routers accept trailing slashes, so using them consistently avoids URL mismatches in browser history.

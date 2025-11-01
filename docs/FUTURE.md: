@@ -1,5 +1,5 @@
 TASKS:
-- add log to every window.[name] assignment - the dashboard landing page isnt getting added correctly, it's turning into an empty object
 - chunk the bundle to make efficient loading where possible
 - add the ability to use a remote/separate codebase for the architecture for local builds
 - think about navbar complexity and what that might be
+- typescript/better source maps

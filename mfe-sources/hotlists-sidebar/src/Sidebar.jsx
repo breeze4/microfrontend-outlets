@@ -6,7 +6,7 @@ function Sidebar() {
   const navigate = useNavigate();
 
   const menuItems = [
-    { label: 'Dashboard', href: '/hotlists' },
+    { label: 'Dashboard', href: '/hotlists/' },
     { label: 'Defects', href: '/hotlists/defects' },
     { label: 'Test Cases', href: '/hotlists/tests' },
     { label: 'Metrics', href: '/hotlists/metrics' },

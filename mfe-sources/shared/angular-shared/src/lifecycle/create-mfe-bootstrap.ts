@@ -32,6 +32,8 @@ export function createAngularMFEBootstrap<T>(
     mount(elementId: string) {
       const element = document.getElementById(elementId);
       if (element) {
+        // Clear any existing content
+        element.innerHTML = '';
         const appRoot = document.createElement(componentSelector);
         element.appendChild(appRoot);
 

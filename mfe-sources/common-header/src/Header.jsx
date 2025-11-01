@@ -17,16 +17,16 @@ function Header() {
         <h1 className="header-title">MFE App Shell</h1>
         <nav className="header-nav">
           <a
-            href="/dashboard"
+            href="/dashboard/"
             className="nav-link"
-            onClick={(e) => handleNavClick(e, '/dashboard')}
+            onClick={(e) => handleNavClick(e, '/dashboard/')}
           >
             Dashboard
           </a>
           <a
-            href="/hotlists"
+            href="/hotlists/"
             className="nav-link"
-            onClick={(e) => handleNavClick(e, '/hotlists')}
+            onClick={(e) => handleNavClick(e, '/hotlists/')}
           >
             Hotlists
           </a>

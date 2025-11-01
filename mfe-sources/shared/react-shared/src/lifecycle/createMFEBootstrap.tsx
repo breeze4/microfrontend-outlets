@@ -27,6 +27,8 @@ export function createMFEBootstrap<P = {}>(
     mount(elementId: string) {
       const element = document.getElementById(elementId);
       if (element) {
+        // Clear any existing content
+        element.innerHTML = '';
         root = ReactDOM.createRoot(element);
         root.render(<Component />);
         console.log(`${mfeName} mounted to`, elementId);
