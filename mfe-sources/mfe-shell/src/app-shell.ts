@@ -34,6 +34,7 @@ interface Fragment {
     return segments[0] || 'dashboard'; // Default to dashboard
   }
 
+
   // Global navigation helper function
   window.navigateTo = function(path: string): void {
     console.log(`[Navigation] Navigating to: ${path}`);

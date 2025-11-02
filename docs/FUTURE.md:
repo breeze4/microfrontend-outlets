@@ -3,4 +3,4 @@ TASKS:
 - add the ability to use a remote/separate codebase for the architecture for local builds
 - add an api server to the project
 - think about navbar complexity and what that might be
-- typescript/better source maps
+- typescript/better source maps, specifically app-shell seems to be not working as expected
