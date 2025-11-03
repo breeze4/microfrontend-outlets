@@ -82,8 +82,8 @@ mfe-v1/
 │   │   ├── dashboard/navigation/sidebar/
 │   │   ├── hotlists/navigation/sidebar/
 │   │   └── pages/...
-│   ├── package.json
-│   └── server.js
+│   ├── nginx.conf                # Nginx configuration
+│   └── Dockerfile                # Docker container for nginx
 │
 ├── routing-gateway/              # Routing Gateway (port 3000, main entry)
 │   ├── nginx.conf                # Nginx configuration
@@ -125,7 +125,7 @@ All core components are built and operational:
 
 1. **Backend Servers**:
    - **Config Server** (`config-server/`, port 3001) - Node.js/Express - serves mode configurations via `/api/config/:mode`
-   - **Static Asset Server** (`static-asset-server/`, port 3002) - Node.js/Express - hosts built MFE bundles
+   - **Static Asset Server** (`static-asset-server/`, port 3002) - nginx + Docker - hosts built MFE bundles
    - **Routing Gateway** (`routing-gateway/`, port 3000) - nginx + Docker - main entry point with URL rewriting rules
 
 2. **App Shell** (`mfe-sources/mfe-shell/`):

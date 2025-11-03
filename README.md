@@ -10,7 +10,7 @@ This project uses three backend services:
 
 1. **Routing Gateway** (Port 3000) - nginx (Docker) - Main entry point with URL rewriting and proxying
 2. **Config Server** (Port 3001) - Node.js/Express - Serves JSON configurations for different modes
-3. **Static Asset Server** (Port 3002) - Node.js/Express - Hosts built MFE bundles. Dev mode outputs bundled files into the hosted assets directory.
+3. **Static Asset Server** (Port 3002) - nginx (Docker) - Hosts built MFE bundles. Dev mode outputs bundled files into the hosted assets directory.
 
 ### How It Works
 

@@ -7,7 +7,7 @@ services:
     ports:
       - "3002:3002"
     volumes:
-      - ./static-asset-server/mfes:/app/mfes:ro
+      - ./static-asset-server/mfes:/usr/share/nginx/html/mfes:ro
     restart: unless-stopped
 
   mfe-nginx:

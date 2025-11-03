@@ -20,10 +20,8 @@
     "dev:dashboard": "concurrently -n config,gateway -c cyan,green \"MODE=dashboard pnpm dev:config\" \"MODE=dashboard pnpm dev:gateway\"",
     "dev:hotlists": "concurrently -n config,gateway -c cyan,green \"MODE=hotlists pnpm dev:config\" \"MODE=hotlists pnpm dev:gateway\"",
     "start:config": "pnpm --filter config-server start",
-    "start:assets": "pnpm --filter static-asset-server start",
     "start:gateway": "docker compose up -d",
     "dev:config": "pnpm --filter config-server dev",
-    "dev:assets": "pnpm --filter static-asset-server dev",
     "dev:gateway": "concurrently -n docker,watcher -c green,yellow \"docker compose up\" \"node nginx-reload-watcher.js\"",
     "nginx:reload": "docker exec mfe-nginx nginx -s reload",
     "nginx:logs": "docker compose logs -f mfe-nginx"
