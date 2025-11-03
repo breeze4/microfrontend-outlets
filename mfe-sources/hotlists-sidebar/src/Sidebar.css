@@ -1,6 +1,6 @@
 .mfe-sidebar.hotlists {
   background: #ecf0f1;
-  padding: 1.5rem;
+  padding: 2rem 1.5rem;
   min-height: 400px;
   width: 220px;
   border-right: 1px solid #bdc3c7;
@@ -31,16 +31,30 @@
 
 .menu-link {
   display: block;
-  padding: 0.75rem 1rem;
+  padding: 0.875rem 1rem;
   color: #2c3e50;
   text-decoration: none;
-  border-radius: 4px;
-  margin-bottom: 0.25rem;
-  transition: all 0.2s;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  transition: all 0.2s ease;
   font-weight: 500;
+  border-left: 3px solid transparent;
+  padding-left: 0.875rem;
 }
 
 .menu-link:hover {
   background: #9b59b6;
   color: white;
+  border-left-color: #8e44ad;
+  padding-left: 1.125rem;
+}
+
+.menu-link:active,
+.menu-link.active {
+  background: rgba(155, 89, 182, 0.1);
+  color: #2c3e50;
+  border: 1px solid rgba(155, 89, 182, 0.4);
+  border-left: 3px solid #9b59b6;
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(155, 89, 182, 0.1);
 }

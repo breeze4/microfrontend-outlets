@@ -4,6 +4,7 @@ interface AppState {
   currentMode: string | null;
   mountedFragments: Record<string, { mfeName: string; path: string; assetUrl: string }>;
   loadedScripts: Set<string>;
+  loadedStylesheets: Set<string>;
   configs: Record<string, any>;
 }
 
@@ -24,6 +25,7 @@ interface Fragment {
     currentMode: null,
     mountedFragments: {},
     loadedScripts: new Set(),
+    loadedStylesheets: new Set(),
     configs: {}
   };
 
@@ -68,6 +70,32 @@ interface Fragment {
     });
   }
 
+  // Load a stylesheet dynamically
+  function loadStylesheet(url: string): Promise<string> {
+    // Check if stylesheet already loaded
+    if (appState.loadedStylesheets.has(url)) {
+      console.log(`[Stylesheet] Already loaded: ${url}`);
+      return Promise.resolve(url);
+    }
+
+    return new Promise((resolve, reject) => {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = url;
+      link.onload = () => {
+        appState.loadedStylesheets.add(url);
+        console.log(`[Stylesheet] Loaded: ${url}`);
+        resolve(url);
+      };
+      link.onerror = () => {
+        console.warn(`[Stylesheet] Failed to load (may not exist): ${url}`);
+        // Resolve anyway since CSS is optional
+        resolve(url);
+      };
+      document.head.appendChild(link);
+    });
+  }
+
   // Get MFE name for outlet and mode
   function getMfeName(outlet: string, mode: string): string | undefined {
     const mfeMap = {
@@ -77,6 +105,17 @@ interface Fragment {
       'landing-page-outlet': mode === 'dashboard' ? 'DashboardLandingPageMFE' : 'HotlistsDashboardMFE'
     };
     return mfeMap[outlet];
+  }
+
+  // Get CSS filename for outlet and mode
+  function getCssFileName(outlet: string, mode: string): string | undefined {
+    const cssMap = {
+      'header-outlet': 'common-header.css',
+      'footer-outlet': 'common-footer.css',
+      'sidebar-outlet': mode === 'dashboard' ? 'dashboard-sidebar.css' : 'hotlists-sidebar.css',
+      'landing-page-outlet': mode === 'hotlists' ? 'hotlists-dashboard.css' : undefined
+    };
+    return cssMap[outlet];
   }
 
   // Unmount a fragment from an outlet
@@ -116,6 +155,14 @@ interface Fragment {
     console.log(`[Mount] Loading fragment for ${outlet}: ${assetUrl}`);
 
     try {
+      // Load CSS if it exists for this MFE
+      const cssFileName = getCssFileName(outlet, mode);
+      if (cssFileName) {
+        const cssUrl = `${ASSET_SERVER_URL}${path}/${cssFileName}`;
+        await loadStylesheet(cssUrl);
+      }
+
+      // Load JavaScript
       await loadScript(assetUrl);
 
       if (window[mfeName] && typeof window[mfeName].mount === 'function') {

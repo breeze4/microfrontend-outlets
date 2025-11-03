@@ -19,6 +19,10 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
+    /* Source Maps for Debugging */
+    "inlineSourceMap": true,
+    "inlineSources": true,
+
     /* Path mapping */
     "baseUrl": ".",
     "paths": {

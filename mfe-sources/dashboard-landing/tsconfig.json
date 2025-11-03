@@ -6,6 +6,8 @@
     "lib": ["ES2022", "dom"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "sourceMap": true,
+    "inlineSources": true,
     "skipLibCheck": true,
     "strict": true,
     "esModuleInterop": true,
